@@ -13,7 +13,6 @@ body {
     /* 初始按宽度占比，实际尺寸会由 JS 调整以按面积占屏 */
     width: 33.333vw;
     max-width: 100%;
-    max-height: 33.333vh;
     height: auto;
     z-index: 9999;
     transition: transform .12s ease, opacity .12s ease;

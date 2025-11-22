@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>带着语文去旅行 - 中考语文复习闯关地图</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="icon" href="images/icon.ico" type="image/x-icon">
+    </head>
+    <body>
+        <script src="js/load.js"></script>
+    </body>
+</html>
