@@ -25,3 +25,5 @@ function next(){
     document.getElementById("nxbu").innerText = "下一步";
     document.getElementById("nxbu").style.display = "block";
 }
+
+switchBg("images/bg.png");
