@@ -114,3 +114,14 @@ window.addEventListener('resize', function(){
     }, 180);
 });
 
+(function (){
+    const params = new URLSearchParams(window.location.search);
+    if(params.has('scores')){
+        document.getElementById('arch').href += '&scores=' + params.get('scores');
+        document.getElementById('collect').href += '&scores=' + params.get('scores');
+        document.getElementById('map').href += '&scores=' + params.get('scores');
+        document.getElementById('pack').href += '&scores=' + params.get('scores');
+        document.getElementById('task').href += '&scores=' + params.get('scores');
+        document.getElementById('settings').href += '&scores=' + params.get('scores');
+    }
+})();

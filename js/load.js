@@ -1,15 +1,26 @@
 (
     function(){
-        // 跳转（等待背景平移动画完成）
         const urlParams = new URLSearchParams(window.location.search);
+
+        if(!urlParams.has('nx')) window.location.href = "index.html";
         const nx = urlParams.get('nx');
-        const next_url = nx ? (nx + ".html") : null;
-        if (!next_url) return;
-        if (window.bgPanFinished && typeof window.bgPanFinished.then === 'function'){
-            window.bgPanFinished.then(function(){ window.location.href = next_url; });
-        } else {
-            // fallback
-            window.location.href = next_url;
+
+        if(nx !== 'arch' && nx !== 'collect' && nx !== 'map' && nx !== 'pack' && nx !== 'task' && nx !== 'settings'){
+            window.location.href = "index.html";
         }
+
+        if(urlParams.has('scores')){
+            const scores = parseInt(urlParams.get('scores'));
+            if(isNaN(scores)){
+                window.location.href = "index.html";
+            }
+        }
+        else{
+            const scores = 500;
+        }
+
+        const next_url = `${nx}.html?scores=${scores}`;
+
+        window.location.href = next_url;
     }
 )()
