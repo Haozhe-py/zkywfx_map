@@ -23,7 +23,6 @@ body {
 /* 原来的框现在不再有可见边框或背景，只用作布局容器 */
 .frame {
 	width: min(92%, 720px); /* 响应式宽度 */
-	max-width: 1000px;
 	height: auto;
 	display: flex;
 	flex-direction: column; /* 垂直堆叠：标题上，出品人在下 */
