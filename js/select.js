@@ -1,19 +1,23 @@
 
 (function (){
-    
     const params = new URLSearchParams(window.location.search);
-    if (!params.has('scores')) return;
-
-    const scoreVal = params.get('scores');
+    let scoreVal = 0;
+    let hasScores = false;
+    if (params.has('scores')){
+        scoreVal = params.get('scores');
+        hasScores = true;
+    }
     const pageNames = ['arch', 'collect', 'map', 'pack', 'task', 'settings'];
     var el = null;
     for (const name of pageNames) {
         el = document.getElementById(name);
-        
-        
-        el.href += `?scores=${scoreVal}&nx=${name}`;
-        //console.log(el.href);
-        
+        if (!el) continue; // 防御性：若元素缺失则跳过
+        if(hasScores){
+            el.href += `?scores=${scoreVal}&nx=${name}`;
+        }
+        else {
+            el.href += `?nx=${name}`;
+        }
     }
 })();
 
@@ -69,6 +73,7 @@ function positionLinkGrid() {
     const rect = img.getBoundingClientRect();
     const gap = 12; // 与书本之间的间隙
     const links = Array.from(grid.querySelectorAll('.link-btn'));
+    
     // 窄屏回退：保持原有网格布局，避免环形布局在小屏幕上显示不佳
     if (window.innerWidth <= 720) {
         grid.classList.remove('ring');
@@ -97,32 +102,62 @@ function positionLinkGrid() {
     // 环形布局：在书本右侧排列若干图标，互不重叠且不与书本重叠
     if (links.length === 0) return;
 
-    // 估算图标大小：尽量与书本高度协调，但受限于视口
-    const maxIcon = 96;
-    const minIcon = 40;
-    let iconSize = Math.max(minIcon, Math.min(maxIcon, Math.floor(rect.height / 3)));
+    // 目标：让环形占据视口的剩余大约 2/3 面积（书本占 1/3），并让图标更大且紧凑
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const totalArea = W * H;
 
-    // 计算需要的半径以保证图标间不重叠：弧长 >= iconSize + gapBetween
+    // 目标圆面积取剩余面积的 2/3（尽量填满剩余区域）
+    const targetCircleArea = Math.max(1, Math.floor(totalArea * 2 / 3));
+    let desiredRadius = Math.sqrt(targetCircleArea / Math.PI);
+
+    // 限制半径不超过视口的一定比例
+    const maxAllowedRadius = Math.floor(Math.min(W, H) * 0.45);
+    desiredRadius = Math.min(desiredRadius, maxAllowedRadius);
+
+    // 先用 desiredRadius 估算图标大小，使图标沿圆周紧凑排列
     const n = links.length;
-    const minGapBetween = 8; // 图标间最小间隙
-    const reqRadius = ((iconSize + minGapBetween) * n) / (2 * Math.PI);
+        let minGapBetween = 2; // 进一步缩小间隙
+        const compactness = 0.72; // 紧凑系数：越小环越紧凑
+        let radius = Math.floor(desiredRadius * compactness);
 
-    // 基础半径至少要离开书本一定距离，避免覆盖书本
-    const baseRadius = rect.width / 2 + gap + iconSize;
+        // 估算图标大小并允许略微放大以填充视觉空间
+        let estimatedIcon = Math.max(40, Math.floor((2 * Math.PI * radius - n * minGapBetween) / n));
+        const maxIcon = Math.floor(Math.min(H, W) * 0.28);
+        let iconSize = Math.max(40, Math.min(estimatedIcon + Math.floor(estimatedIcon * 0.08), maxIcon));
 
-    // 目标半径：满足不覆盖书本且满足不重叠，且不超过视口合理范围
-    let radius = Math.max(baseRadius, reqRadius, 60);
-    const maxAllowedRadius = Math.max(60, Math.floor(window.innerWidth * 0.45));
-    radius = Math.min(radius, maxAllowedRadius);
+        // 如果 iconSize 太大导致不能沿当前半径放下，适度放大半径或减小 iconSize
+        let iter = 0;
+        while (iter < 8) {
+            const possible = Math.floor((2 * Math.PI * radius - n * minGapBetween) / n);
+            if (possible >= iconSize) break;
+            // 优先尝试稍微增大 radius 再减小 icon
+            radius = Math.floor(radius * 1.06);
+            if (radius > maxAllowedRadius) {
+                radius = maxAllowedRadius;
+                iconSize = Math.max(32, Math.floor((2 * Math.PI * radius - n * minGapBetween) / n));
+                break;
+            }
+            iter++;
+        }
+    // 为了与书本保持一定距离，把圆心初始放在书本右侧再右移 radius（确保不重叠）
+    const baseRadius = rect.width / 2 + gap + Math.round(iconSize * 0.4);
+    if (radius < baseRadius) {
+        // 若半径小于基准，适当扩大到基准（或保持之前的 radius），以免靠得太近
+        radius = Math.max(radius, baseRadius);
+    }
 
-    // 圆心：以书本右侧为参考，垂直居中于书本
+    // 圆心：使环的左边界落在屏幕的 1/3 处（即环占右侧 2/3），同时防止与书本重叠并限制在视口内
     const centerY = rect.top + rect.height / 2;
-    let centerX = rect.right + gap + radius;
-    // 保证不会超出视口右侧
-    const rightLimit = window.innerWidth - radius - 12;
+    const desiredLeftBoundary = Math.floor(W / 3); // 希望圆的左边界 >= 屏幕 1/3
+    // 令 centerX 使圆的左边界为 desiredLeftBoundary
+    let centerX = desiredLeftBoundary + radius;
+    // 但必须保证不会覆盖书本：至少放在书本右侧 + gap + radius
+    const minFromBook = rect.right + gap + radius;
+    centerX = Math.max(centerX, minFromBook, radius + 12);
+    // 同时确保不超过右侧可视边界
+    const rightLimit = W - radius - 12;
     if (centerX > rightLimit) centerX = rightLimit;
-    // 最小 left 限制
-    centerX = Math.max(centerX, radius + 12);
 
     // 告知 CSS 这是环形布局（CSS 会在窄屏回退）
     grid.classList.add('ring');
@@ -154,6 +189,26 @@ function positionLinkGrid() {
             ic.style.width = iconSize + 'px';
             ic.style.height = iconSize + 'px';
         }
+        // 添加交互效果的事件处理器（hover / focus）
+        link.addEventListener('mouseenter', function(){
+            links.forEach(function(l){
+                if (l === link) { l.classList.add('is-hover'); l.classList.remove('dim'); }
+                else { l.classList.add('dim'); l.classList.remove('is-hover'); }
+            });
+        });
+        link.addEventListener('mouseleave', function(){
+            links.forEach(function(l){ l.classList.remove('is-hover'); l.classList.remove('dim'); });
+        });
+        // 键盘辅助：焦点时也应用相同效果
+        link.addEventListener('focus', function(){
+            links.forEach(function(l){
+                if (l === link) { l.classList.add('is-hover'); l.classList.remove('dim'); }
+                else { l.classList.add('dim'); l.classList.remove('is-hover'); }
+            });
+        });
+        link.addEventListener('blur', function(){
+            links.forEach(function(l){ l.classList.remove('is-hover'); l.classList.remove('dim'); });
+        });
     });
 }
 

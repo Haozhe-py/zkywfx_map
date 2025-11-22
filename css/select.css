@@ -5,7 +5,6 @@ body {
     background: #000;
 }
 
-/* 把图片固定在视口的左下角，并针对窄屏作出回退 */
 .corner-img {
     position: fixed;
     left: 16px;
@@ -48,6 +47,7 @@ body {
     height: auto;
     box-sizing: border-box;
 }
+/* 诊断样式（已移除） */
 
 /* 环形布局样式钩子：当 JS 添加 .ring 时，使用定位的子元素展示环形 */
 #linkGrid.ring {
@@ -69,6 +69,48 @@ body {
     height: 56px;
     object-fit: contain;
     filter: drop-shadow(0 6px 12px rgba(0,0,0,0.45));
+}
+
+/* 鼠标悬停特效（环形模式下适用） */
+#linkGrid.ring .link-btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+#linkGrid.ring .link-btn.dim {
+    transform: scale(0.88);
+    opacity: 0.9;
+}
+#linkGrid.ring .link-btn.is-hover {
+    transform: scale(1.12);
+    z-index: 20000;
+}
+
+/* 更鲁棒的 CSS-only fallback：当鼠标在整个 ring 上时，先把所有项变暗再突出悬停项 */
+#linkGrid.ring:hover .link-btn { transform: scale(0.88); opacity: 0.9; }
+#linkGrid.ring .link-btn:hover { transform: scale(1.12); z-index: 20000; }
+#linkGrid.ring:focus-within .link-btn { transform: scale(0.88); opacity: 0.9; }
+#linkGrid.ring .link-btn:focus { transform: scale(1.12); z-index: 20000; }
+
+#linkGrid.ring .link-btn { transform-origin: center center; }
+
+/* 椭圆阴影：使用伪元素放在每个 .link-btn 下方 */
+#linkGrid.ring .link-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%) translateY(6px) scaleX(1.2) translateZ(0);
+    width: 60%;
+    height: 18%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), rgba(0,0,0,0.15));
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+#linkGrid.ring .link-btn.is-hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px) scaleX(1.35);
 }
 
 /* 把鼠标交互从书本移到链接图标上 */
