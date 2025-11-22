@@ -16,7 +16,7 @@ function begin(){
 }
 
 function to_task(){
-    window.location.href = "task_page_1.html";
+    window.location.href = "select.html";
 }
 
 function next(){
