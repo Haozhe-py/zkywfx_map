@@ -6,5 +6,6 @@
     for (const id of picture_ids) {
         document.getElementById(id).style.width = widthPerPicture + 'px';
     }
+    return;
 }
 )();
