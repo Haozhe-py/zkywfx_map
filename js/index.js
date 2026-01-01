@@ -7,23 +7,9 @@ function switchBg(filename) {
 }
 
 function begin(){
-    switchPage();
-    switchBg('images/inst.jpg');
-    // 显示“游戏说明”区域（之前用 display 属性错误，初始化为隐藏）
-    var inst = document.getElementById('inst');
-    if(inst) inst.style.display = 'block';
-    
+  // 跳转到独立的说明页面
+  window.location.href = 'inst.php';
 }
 
-function to_task(){
-    window.location.href = "select.html";
-}
-
-function next(){
-    switchBg('images/pp.png');
-    document.getElementById("nxbu").onclick = to_task;
-    document.getElementById("nxbu").innerText = "下一步";
-    document.getElementById("nxbu").style.display = "block";
-}
 
 switchBg("images/bg.png");

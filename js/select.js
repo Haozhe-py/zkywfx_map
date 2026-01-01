@@ -1,23 +1,11 @@
 
 (function (){
-    const params = new URLSearchParams(window.location.search);
-    let scoreVal = 0;
-    let hasScores = false;
-    if (params.has('scores')){
-        scoreVal = params.get('scores');
-        hasScores = true;
-    }
     const pageNames = ['arch', 'collect', 'map', 'pack', 'task', 'settings'];
     var el = null;
     for (const name of pageNames) {
         el = document.getElementById(name);
         if (!el) continue; // 防御性：若元素缺失则跳过
-        if(hasScores){
-            el.href += `?scores=${scoreVal}&nx=${name}`;
-        }
-        else {
-            el.href += `?nx=${name}`;
-        }
+        el.href += `?nx=${name}`;
     }
 })();
 
