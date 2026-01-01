@@ -128,3 +128,27 @@ button:focus {
 		font-size: 16px;
 	}
 }
+
+/* ---------- 登录/注册圆角黑色框 ---------- */
+.auth-box {
+	width: 100%;
+	max-width: 480px;
+	background: rgba(0,0,0,0.88);
+	border-radius: 14px;
+	padding: 28px;
+	box-sizing: border-box;
+	color: #ffffff;
+	box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+}
+
+@media (max-width: 420px) {
+	.auth-box {
+		padding: 18px;
+		border-radius: 12px;
+	}
+}
+
+/* 小的实用类，方便在 JS 中切换可见性 */
+.auth-hidden { display: none !important; }

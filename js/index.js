@@ -8,7 +8,7 @@ function switchBg(filename) {
 
 function begin(){
   // 跳转到独立的说明页面
-  window.location.href = 'inst.php';
+  window.location.href = 'login.php';
 }
 
 
