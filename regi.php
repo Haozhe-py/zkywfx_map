@@ -9,7 +9,7 @@
     </head>
     <body>
         <div id="wait" class="auth-box">
-            <h2>正在注册，请稍候...</h2>
+            <h2 id="waiting">正在注册，请稍候...</h2>
         <p>
         <?php
         require_once 'json_file_manager.php';
@@ -26,32 +26,45 @@
 
         try {
             $manager->atomicUpdate(function ($data) {
+                // 初始化用户数组（如果不存在）
                 if (!isset($data['users'])) {
                     $data['users'] = [];
                 }
-
+                // 检查用户名是否已存在
                 foreach ($data['users'] as $user) {
                     if ($user['username'] === $_POST['new_username']) {
                         throw new Exception("用户名已存在！");
                     }
                 }
-
+                // 添加新用户到usr.json
+                $cur_time = date("Y-m-d H:i:s");
+                $cur_id = strval(count($data['users']));
                 $new_user = [
                     "id" => strval(count($data['users'])),
                     "username" => $_POST['new_username'],
                     "name" => "新用户",
                     "password" => $_POST['new_password'],
-                    "role" => "user"
+                    "role" => "user",
+                    "created_at" => $cur_time,
                 ];
 
                 $data['users'][] = $new_user;
+
+                // 创建用户专属历史记录文件
+                $history_manager = new JsonFileManager('data/' . $cur_id . '.json');
+                $history_manager->write([
+                    "id" => intval($cur_id),
+                    "history" => []
+                ]);
+
                 return $data;
             });
 
-            echo "注册成功！<br />";
+            echo "<br /><h2>注册成功！</h2><br />";
             echo "<a href='login.php'>前往登录页面</a>";
 
         } catch (Exception $e) {
+            echo "br /><h2>注册失败！</h2><br />";
             echo htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "<br />";
             echo "<a href='javascript:void(0);' onclick='javascript:history.back();'>返回注册页面</a>";
         }

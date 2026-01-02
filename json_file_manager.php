@@ -76,7 +76,7 @@ class JsonFileManager {
         }
 
         // 写入数据
-        $json_string = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json_string = json_encode($data, JSON_UNESCAPED_UNICODE);
         fwrite($fp, $json_string);
         fflush($fp);
 
@@ -133,7 +133,7 @@ class JsonFileManager {
         // 写回文件
         ftruncate($fp, 0); // 清空文件
         rewind($fp); // 回到文件开头
-        $json_string = json_encode($newData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        $json_string = json_encode($newData, JSON_UNESCAPED_UNICODE);
         fwrite($fp, $json_string);
         fflush($fp);
 
