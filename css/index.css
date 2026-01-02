@@ -129,6 +129,7 @@ button:focus {
 	}
 }
 
+
 /* ---------- 登录/注册圆角黑色框 ---------- */
 .auth-box {
 	width: 33%;
@@ -178,7 +179,7 @@ button:focus {
 	width: 90%;
 	margin: 1% 0;
 	border: none;
-	border-radius: 8px;
+	border-radius: 100px;
 	box-sizing: border-box;
 	font-size: 1.05rem;
 	height: 12%;
@@ -189,7 +190,7 @@ button:focus {
 	background: #ffb300;
 	color: #081022;
 	border: none;
-	border-radius: 8px;
+	border-radius: 100px;
 	font-size: 1.05rem;
 	font-weight: 600;
 	cursor: pointer;
@@ -253,7 +254,7 @@ button:focus {
 	width: 90%;
 	margin: 1% 0;
 	border: none;
-	border-radius: 8px;
+	border-radius: 100px;
 	box-sizing: border-box;
 	font-size: 1.05rem;
 	height: 12%;
@@ -264,7 +265,7 @@ button:focus {
 	background: #ffb300;
 	color: #081022;
 	border: none;
-	border-radius: 8px;
+	border-radius: 100px;
 	font-size: 1.05rem;
 	font-weight: 600;
 	cursor: pointer;

@@ -18,11 +18,9 @@
 })();
 
 function showRegi() {
-    document.getElementById('login').style.display = 'none';
-    document.getElementById('regi').style.display = 'block';
+    window.location.href = 'login.php?tab=regi';
 }
 
 function showLogin() {
-    document.getElementById('regi').style.display = 'none';
-    document.getElementById('login').style.display = 'block';
+    window.location.href = 'login.php?tab=login';
 }
