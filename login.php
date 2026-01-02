@@ -12,7 +12,7 @@
 
         <!-- 登录页面 -->
         <div class="auth-box" id="login">
-            <form action="inst.php" method="POST">
+            <form action="_login.php" method="POST">
                 <h2>登录</h2>
                 <input type="text" id="login_usr" name="username" placeholder="用户名" required /><br />
                 <input type="password" id="login_pwd" name="password" placeholder="密码" required />

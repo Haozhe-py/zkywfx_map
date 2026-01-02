@@ -54,7 +54,9 @@
                 $history_manager = new JsonFileManager('data/' . $cur_id . '.json');
                 $history_manager->write([
                     "id" => intval($cur_id),
-                    "history" => []
+                    "history" => [
+                        ["time" => $cur_time, "action" => "register", "description" => "用户注册，初始500积分", "cur_scores" => 500]
+                    ]
                 ]);
 
                 return $data;
@@ -64,12 +66,22 @@
             echo "<a href='login.php'>前往登录页面</a>";
 
         } catch (Exception $e) {
-            echo "br /><h2>注册失败！</h2><br />";
+            echo "<br /><h2>注册失败！</h2><br />";
             echo htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . "<br />";
             echo "<a href='javascript:void(0);' onclick='javascript:history.back();'>返回注册页面</a>";
         }
         ?>
     </p>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 隐藏 id 为 'waiting' 的 h2（如果存在）
+        var h = document.getElementById('waiting');
+        if (h) {
+            h.style.display = 'none';
+            return;
+        }
+    });
+    </script>
     </body>
 </html>
