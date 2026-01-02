@@ -8,22 +8,31 @@
         <link rel="icon" href="images/icon.ico" type="image/x-icon">
     </head>
     <body>
-        <script src="js/login.js"></script>
+        
 
         <!-- 登录页面 -->
-        <div id="login">
-            <div class="auth-box" id="login-box">
-                <!-- 登录表单放这里 -->
-            </div>
+        <div class="auth-box" id="login">
+            <form action="inst.php" method="POST">
+                <h2>登录</h2>
+                <input type="text" name="username" placeholder="用户名" required /><br />
+                <input type="password" name="password" placeholder="密码" required />
+                <p>没有账号？<a href="javascript:void(0);" onclick="showRegi();">注册一个</a></p>
+                <input type="submit" value="登录">
+            </form>
         </div>
 
         
         <!-- 注册页面 -->
-        <div id="regi" style="display: none;">
-            <div class="auth-box" id="regi-box">
-                <!-- 注册表单放这里 -->
-            </div>
+        <div id="regi" class="regi-box">
+            <form action="regi.php" method="POST">
+                <h2>注册</h2>
+                <input type="text" name="new_username" placeholder="用户名" required /><br />
+                <input type="password" name="new_password" placeholder="密码" required /><br />
+                <input type="password" name="confirm_password" placeholder="确认密码" required />
+                <p>已有账号？<a href="javascript:void(0);" onclick="showLogin();">现在登录</a></p>    
+                <input type="submit" value="注册" />
+            </form>
         </div>
-
+        <script src="js/login.js"></script>
     </body>
 </html>

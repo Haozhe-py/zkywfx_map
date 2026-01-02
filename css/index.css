@@ -12,7 +12,7 @@ body {
 	display: flex;
 	align-items: center; /* 垂直居中 */
 	justify-content: center; /* 水平居中 */
-	background-image: url('images/bg.png');
+	background-image: url('/images/bg.png');
 	background-size: cover;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -131,16 +131,20 @@ button:focus {
 
 /* ---------- 登录/注册圆角黑色框 ---------- */
 .auth-box {
-	width: 100%;
-	max-width: 480px;
+	width: 33%;
+	margin: auto;
+	height: 60%;
+	min-height: 420px;
 	background: rgba(0,0,0,0.88);
 	border-radius: 14px;
-	padding: 28px;
+	padding: 4%;
 	box-sizing: border-box;
 	color: #ffffff;
 	box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-	-webkit-backdrop-filter: blur(6px);
 	backdrop-filter: blur(6px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 @media (max-width: 420px) {
@@ -148,7 +152,124 @@ button:focus {
 		padding: 18px;
 		border-radius: 12px;
 	}
+
+	.auth-box input[type="text"],
+	.auth-box input[type="password"],
+	.auth-box input[type="submit"] {
+		height: 44px;
+		font-size: 16px;
+	}
+}
+
+
+/* 表单元素样式 */
+
+.auth-box form {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.auth-box input[type="text"],
+.auth-box input[type="password"] {
+	width: 90%;
+	margin: 1% 0;
+	border: none;
+	border-radius: 8px;
+	box-sizing: border-box;
+	font-size: 1.05rem;
+	height: 12%;
+	padding: 0 2%;
+}
+.auth-box input[type="submit"] {
+	width: 92%;
+	background: #ffb300;
+	color: #081022;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+	box-shadow: 0 6px 18px rgba(8,15,30,0.12);
+	height: 12%;
+	line-height: normal;
+}
+
+/* 注册 */
+#regi {
+	display: none;
+}
+.regi-box {
+	width: 33%;
+	margin: auto;
+	height: 72%;
+	min-height: 420px;
+	background: rgba(0,0,0,0.88);
+	border-radius: 14px;
+	padding: 4%;
+	box-sizing: border-box;
+	color: #ffffff;
+	box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+	backdrop-filter: blur(6px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+@media (max-width: 420px) {
+	.regi-box {
+		padding: 18px;
+		border-radius: 12px;
+	}
+
+	.regi-box input[type="text"],
+	.regi-box input[type="password"],
+	.regi-box input[type="submit"] {
+		height: 44px;
+		font-size: 16px;
+	}
 }
 
 /* 小的实用类，方便在 JS 中切换可见性 */
-.auth-hidden { display: none !important; }
+.regi-hidden { display: none !important; }
+
+/* 表单元素样式 */
+
+.regi-box form {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.regi-box input[type="text"],
+.regi-box input[type="password"] {
+	width: 90%;
+	margin: 1% 0;
+	border: none;
+	border-radius: 8px;
+	box-sizing: border-box;
+	font-size: 1.05rem;
+	height: 12%;
+	padding: 0 2%;
+}
+.regi-box input[type="submit"] {
+	width: 92%;
+	background: #ffb300;
+	color: #081022;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.05rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .12s ease, transform .12s ease, box-shadow .12s ease;
+	box-shadow: 0 6px 18px rgba(8,15,30,0.12);
+	height: 12%;
+	line-height: normal;
+}
