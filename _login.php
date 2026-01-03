@@ -35,7 +35,7 @@
                     echo "<script>/*等待2秒后跳转*/ setTimeout(function(){ window.location.href = 'login.php'; }, 2000);</script>";
                     exit();
                 }
-                echo "<b>用户名不存在，请重新登录或<a href='login.php?tab=regi'>前往注册</a>。</b>"
+                echo "<b>用户名不存在，请<a href='javascript:void(0);' onclick='javascript:history.back();'>重新登录</a>或<a href='login.php?tab=regi'>前往注册</a>。</b>"
             }
         }
 
