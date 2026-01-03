@@ -15,7 +15,5 @@
             <a class="link-btn" href="tasks/composition.php" title="作文板块" id="composition"><img class="link-icon" src="images/task_icons/composition.png" alt="作文板块" /></a>
         </div>
 
-
-        <script src="js/task.js"></script>
     </body>
 </html>

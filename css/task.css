@@ -1,3 +1,9 @@
 body {
-    background-image: url("images/black.jpg");
+    background-image: url("/images/black.jpg");
+}
+
+.link_btn {
+    width: 23%;
+    height: auto;
+    align-self: center;
 }
