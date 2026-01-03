@@ -46,6 +46,7 @@
                     "password" => $_POST['new_password'],
                     "role" => "user",
                     "created_at" => $cur_time,
+                    "locked" => false
                 ];
 
                 $data['users'][] = $new_user;
