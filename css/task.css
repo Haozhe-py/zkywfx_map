@@ -1,9 +1,78 @@
 body {
+    margin: 0;
     background-image: url("/images/black.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6.5%;
+    width: 100%;
+}
+
+.container a {
+    display: block;
+    flex: 0 0 20%;
+    position: relative;
+    box-sizing: border-box;
+    transition: transform .18s ease, opacity .18s ease;
 }
 
 .link_btn {
-    width: 23%;
+    width: 100%;
     height: auto;
-    align-self: center;
+    display: block;
+    object-fit: contain;
+    transition: transform .18s ease, filter .18s ease;
+}
+
+/* 交互样式：悬停时突出当前项，其他项变暗 */
+.container a.dim {
+    transform: scale(0.94);
+    opacity: 0.86;
+}
+.container a.is-hover {
+    transform: scale(1.06);
+    z-index: 20;
+}
+.container a.is-hover .link_btn,
+.container a:hover .link_btn {
+    transform: translateY(-6px) scale(1.03);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+
+/* 底部椭圆阴影 */
+.container a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%) translateY(6px) scaleX(1.1);
+    width: 60%;
+    height: 12%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), rgba(0,0,0,0.12));
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity .22s ease, transform .22s ease;
+    pointer-events: none;
+}
+.container a.is-hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px) scaleX(1.25);
+}
+
+/* 当容器被 hover 时先把所有项变暗（CSS fallback），再突出当前悬停项 */
+.container:hover a { transform: scale(0.94); opacity: 0.86; }
+.container a:hover { transform: scale(1.06); opacity: 1; }
+
+@media (max-width: 720px) {
+    .container { gap: 5%; }
+    .container a { flex: 0 0 40%; }
 }
