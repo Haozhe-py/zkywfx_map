@@ -31,7 +31,7 @@
                     <br />
                     <br />
                     <span>
-                        <button onclick="begin()" id="bu">开始</button>
+                        <button onclick="begin()" id="bu">学生登录</button>
                     </span>
                 </div>
             </div>
