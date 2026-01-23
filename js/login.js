@@ -44,7 +44,9 @@ function refillRegi(username, password1, password2) {
 function showError(message, tab) {
     if (tab === 'login') {
         document.getElementById('lgerror').innerText = message;
+        document.getElementById('lgerror').style.display = 'block';
     } else if (tab === 'regi') {
         document.getElementById('rgerror').innerText = message;
+        document.getElementById('rgerror').style.display = 'block';
     }
 }

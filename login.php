@@ -12,7 +12,7 @@
 
         <!-- 登录页面 -->
         <div class="auth-box" id="login">
-            <form action="_login.php" method="POST">
+            <form action="login.php" method="POST">
                 <h2>登录</h2>
                 <p id="login_error" style="color: red; display: none;"></p>
                 <input type="hidden" name="tab" value="login" />
@@ -26,7 +26,7 @@
         
         <!-- 注册页面 -->
         <div id="regi" class="regi-box">
-            <form action="regi.php" method="POST">
+            <form action="login.php" method="POST">
                 <h2>注册</h2>
                 <p id="regi_error" style="color: red; display: none;"></p> 
                 <input type="hidden" name="tab" value="regi" />
@@ -42,11 +42,11 @@
 
         <?php
             require_once 'json_file_manager.php';
+            
             // 检验是否为POST表单提交，否则不执行任何操作。
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (isset($_POST['tab']) && $_POST['tab'] === 'login') {
                     // 登录
-                    session_start();
                     $usr = $_POST['username'];
                     $pwd = $_POST['password'];
 
@@ -62,9 +62,12 @@
                                 exit();
                             }
                             // 检查密码
-                            else if ($user['password'] === $pwd) {
+                            else if (password_verify($pwd, $user['password'])) {
+                                // 登录成功
+                                session_start();
                                 $_SESSION['username'] = $usr;
                                 $_SESSION['id'] = $user['id'];
+                                $_SESSION['time'] = date("Y-m-d H:i:s");
                                 echo "<script>window.location.href = 'inst.php';</script>";
                                 exit();
                             } else {
@@ -73,13 +76,12 @@
                                 echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
                                 exit();
                             }
-                            echo "<script>showError('用户名不存在，请重新登录或<a href=\\'login.php?tab=regi\\'>前往注册</a>。', tab='login');</script>";
-                            // 重新填入信息 
-                            echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
-
-                            exit();
                         }
                     }
+                    echo "<script>showError('用户名不存在，请重新登录或<a href=\\'login.php?tab=regi\\'>前往注册</a>。', tab='login');</script>";
+                    // 重新填入信息 
+                    echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
+                    exit();
                 } else if (isset($_POST['tab']) && $_POST['tab'] === 'regi') {
                     // check
                     if ($_POST['new_password'] !== $_POST['confirm_password']) {
@@ -111,7 +113,7 @@
                                 "id" => strval(count($data['users'])),
                                 "username" => $_POST['new_username'],
                                 "name" => "新用户",
-                                "password" => $_POST['new_password'],
+                                "password" => password_hash($_POST['new_password'], PASSWORD_DEFAULT),
                                 "role" => "user",
                                 "created_at" => $cur_time,
                                 "locked" => false
@@ -131,15 +133,21 @@
                             return $data;
                         });
 
-                        echo "<h2>注册成功！</h2>";
-                        echo "请<a href='login.php'>前往登录页面</a>。";
+                        // 注册成功
 
                     } catch (Exception $e) {
                         echo "<script>window.alert('注册失败：\\n".htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')."');</script>";
                         echo "<script>showError('注册失败：".htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')."', tab='regi');</script>";
                         // 重新填入信息
                         echo "<script>refillRegi('".$_POST['new_username']."', '".$_POST['new_password']."', '".$_POST['confirm_password']."');</script>";
+                        exit();
                     }
+                    // 注册成功，自动登录
+                    session_start();
+                    $_SESSION['username'] = $_POST['new_username'];
+                    $_SESSION['id'] = $data['users'][$_POST['new_username']]['id'];
+                    $_SESSION['time'] = date("Y-m-d H:i:s");
+                    echo "<script>window.location.href = 'inst.php';</script>";
                 }
             }
         ?>
