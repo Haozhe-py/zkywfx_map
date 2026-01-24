@@ -61,7 +61,7 @@
                         // echo "<!-- 用户被封禁 -->";
                         echo "<script>showError('您的账号已被封禁，无法登录。如有需要请联系管理员解除。', tab='login');</script>";
                         // 重新填入信息
-                        echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
+                        echo "<script>refillLogin('".addslashes($usr)."', '".addslashes($pwd)."');</script>";
                         exit();
                     }
                     // 检查密码
@@ -83,7 +83,7 @@
                         // echo "<!-- 密码错误 -->";
                         echo "<script>showError('密码错误，请重新输入。', tab='login');</script>";
                         // 重新填入信息
-                        echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
+                        echo "<script>refillLogin('".addslashes($usr)."', '".addslashes($pwd)."');</script>";
                         exit();
                     }
                 }
@@ -91,22 +91,24 @@
             // echo "<!-- 用户不存在 -->";
             echo "<script>showError('用户名不存在，请重新登录或<a href=\"login.php?tab=regi\">前往注册</a>。', tab='login');</script>";
             // 重新填入信息 
-            echo "<script>refillLogin('".$usr."', '".$pwd."');</script>";
+            echo "<script>refillLogin('".addslashes($usr)."', '".addslashes($pwd)."');</script>";
             exit();
         } else if (isset($_POST['tab']) && $_POST['tab'] === 'regi') {
             // check
             if ($_POST['new_password'] !== $_POST['confirm_password']) {
                 echo "<script>showError('两次输入的密码不一致！', tab='regi');</script>";
                 // 重新填入信息
-                echo "<script>refillRegi('".$_POST['new_username']."', '".$_POST['new_password']."', '".$_POST['confirm_password']."');</script>";
+                echo "<script>refillRegi('".addslashes($_POST['new_username'])."', '".addslashes($_POST['new_password'])."', '".addslashes($_POST['confirm_password'])."');</script>";
                 exit();
             }
 
             // 注册
             $manager = new JsonFileManager('data/usr.json');
+            $cur_id = '';
 
             try {
-                $manager->atomicUpdate(function ($data) {
+                // 捕获外部 $cur_id，以便在闭包内生成后回传给外层
+                $manager->atomicUpdate(function ($data) use (&$cur_id) {
                     // 初始化用户数组（如果不存在）
                     if (!isset($data['users'])) {
                         $data['users'] = [];
@@ -119,13 +121,17 @@
                     }
                     // 添加新用户到usr.json
                     $cur_time = date("Y-m-d H:i:s");
-                    $cur_id = strval(count($data['users']));
+
+                    // 使用安全随机数生成唯一ID，并确保不与现有ID冲突
+                    do {
+                        $cur_id = md5($cur_time . strval(count($data['users']))) . bin2hex(random_bytes(16));
+                    } while (in_array($cur_id, array_column($data['users'], 'id')));
                     $new_user = [
-                        "id" => strval(count($data['users'])),
+                        "id" => $cur_id,
                         "username" => $_POST['new_username'],
-                        "name" => "新用户",
+                        "name" => "学生",
                         "password" => password_hash($_POST['new_password'], PASSWORD_DEFAULT),
-                        "role" => "user",
+                        "role" => "student",
                         "created_at" => $cur_time,
                         "locked" => false
                     ];
@@ -135,7 +141,7 @@
                     // 创建用户专属历史记录文件
                     $history_manager = new JsonFileManager('data/' . $cur_id . '.json');
                     $history_manager->write([
-                        "id" => intval($cur_id),
+                        "id" => $cur_id,
                         "history" => [
                             ["time" => $cur_time, "action" => "register", "description" => "用户注册，初始500积分", "cur_scores" => 500]
                         ]
@@ -149,15 +155,17 @@
             } catch (Exception $e) {
                 echo "<script>showError('注册失败：".htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')."', tab='regi');</script>";
                 // 重新填入信息
-                echo "<script>refillRegi('".$_POST['new_username']."', '".$_POST['new_password']."', '".$_POST['confirm_password']."');</script>";
+                echo "<script>refillRegi('".addslashes($_POST['new_username'])."', '".addslashes($_POST['new_password'])."', '".addslashes($_POST['confirm_password'])."');</script>";
                 exit();
             }
             // 注册成功，自动登录
             session_start();
             $_SESSION['username'] = $_POST['new_username'];
-            $_SESSION['id'] = $data['users'][$_POST['new_username']]['id'];
+            $_SESSION['id'] = $cur_id;
             $_SESSION['time'] = date("Y-m-d H:i:s");
             echo "<script>window.location.href = 'student/inst.php';</script>";
+            // echo "<!-- " . $_SESSION['id'] . " -->";
+            exit();
         }
     }
 ?>
