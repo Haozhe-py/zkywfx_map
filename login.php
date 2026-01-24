@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>登录</title>
-        <link rel="stylesheet" href="css/index.css">
-        <link rel="icon" href="images/icon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="/index.css">
+        <link rel="icon" href="/icon.ico" type="image/x-icon">
     </head>
     <body>
         
@@ -37,7 +37,7 @@
                 <input type="submit" value="注册" />
             </form>
         </div>
-        <script src="js/login.js"></script>
+        <script src="/login.js"></script>
     </body>
 </html>
 <?php
@@ -72,7 +72,12 @@
                         $_SESSION['username'] = $usr;
                         $_SESSION['id'] = $user['id'];
                         $_SESSION['time'] = date("Y-m-d H:i:s");
-                        echo "<script>window.location.href = 'inst.php';</script>";
+                        if ($user['role'] === 'teacher') {
+                            echo "<script>window.location.href = 'teacher/inst.php';</script>";
+                        }
+                        else {
+                            echo "<script>window.location.href = 'student/inst.php';</script>";
+                        }
                         exit();
                     } else {
                         // echo "<!-- 密码错误 -->";
@@ -152,7 +157,7 @@
             $_SESSION['username'] = $_POST['new_username'];
             $_SESSION['id'] = $data['users'][$_POST['new_username']]['id'];
             $_SESSION['time'] = date("Y-m-d H:i:s");
-            echo "<script>window.location.href = 'inst.php';</script>";
+            echo "<script>window.location.href = 'student/inst.php';</script>";
         }
     }
 ?>

@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    background-image: url("/images/black.jpg");
     background-size: cover;
     background-position: center;
     display: flex;

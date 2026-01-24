@@ -1,0 +1,167 @@
+/* task_page_1.css - 样式文件（与 task_page_1.html 配合） */
+
+/* 页面背景 */
+body {
+    background: #000;
+}
+
+.corner-img {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    /* 初始按宽度占比，实际尺寸会由 JS 调整以按面积占屏 */
+    width: 33.333vw;
+    max-width: 100%;
+    height: auto;
+    z-index: 9999;
+    transition: transform .12s ease, opacity .12s ease;
+}
+.corner-img:hover {
+    /* 移除书本的交互响应 - 保持静态 */
+    transform: none;
+}
+
+@media (max-width: 420px) {
+    .corner-img {
+        left: 10px;
+        bottom: 10px;
+        /* 在非常窄的屏幕上仍然保持可视且不会太占屏 */
+        width: min(60vw, 200px);
+        max-height: 40vh;
+    }
+}
+
+/* 链接网格：两行三列，放在书本右侧，不被书本遮挡 */
+#linkGrid {
+    position: fixed; /* JS 会动态设置 left/top/width/height */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 10px 14px;
+    align-items: center;
+    z-index: 10000; /* 在书本之上 */
+    /* 宽高由 JS 计算并设置以填充书本右侧区域 */
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    box-sizing: border-box;
+}
+/* 诊断样式（已移除） */
+
+/* 环形布局样式钩子：当 JS 添加 .ring 时，使用定位的子元素展示环形 */
+#linkGrid.ring {
+    display: block; /* JS 会把子元素设置为 fixed */
+    width: 0;
+    height: 0;
+}
+#linkGrid.ring .link-btn {
+    /* JS 将设置 fixed 定位与尺寸；这里保留可点性和默认过渡 */
+    display: inline-block;
+    transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
+}
+
+
+.link-btn { display: inline-block; }
+.link-icon {
+    display: block;
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.45));
+}
+
+/* 鼠标悬停特效（环形模式下适用） */
+#linkGrid.ring .link-btn {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+#linkGrid.ring .link-btn.dim {
+    transform: scale(0.88);
+    opacity: 0.9;
+}
+#linkGrid.ring .link-btn.is-hover {
+    transform: scale(1.12);
+    z-index: 20000;
+}
+
+/* 更鲁棒的 CSS-only fallback：当鼠标在整个 ring 上时，先把所有项变暗再突出悬停项 */
+#linkGrid.ring:hover .link-btn { transform: scale(0.88); opacity: 0.9; }
+#linkGrid.ring .link-btn:hover { transform: scale(1.12); z-index: 20000; }
+#linkGrid.ring:focus-within .link-btn { transform: scale(0.88); opacity: 0.9; }
+#linkGrid.ring .link-btn:focus { transform: scale(1.12); z-index: 20000; }
+
+#linkGrid.ring .link-btn { transform-origin: center center; }
+
+/* 椭圆阴影：使用伪元素放在每个 .link-btn 下方 */
+#linkGrid.ring .link-btn::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%) translateY(6px) scaleX(1.2) translateZ(0);
+    width: 60%;
+    height: 18%;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.55), rgba(0,0,0,0.15));
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+#linkGrid.ring .link-btn.is-hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(10px) scaleX(1.35);
+}
+
+/* 把鼠标交互从书本移到链接图标上 */
+.link-btn {
+    transition: transform .14s ease, box-shadow .14s ease, opacity .14s ease;
+    display: inline-block;
+    border-radius: 8px;
+}
+.link-btn:focus-visible {
+    outline: 3px solid rgba(255,214,0,0.18);
+    outline-offset: 4px;
+}
+.link-btn:hover .link-icon,
+.link-btn:focus .link-icon {
+    transform: translateY(-6px) scale(1.04);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.35));
+}
+.link-btn:active .link-icon {
+    transform: translateY(-2px) scale(0.99);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.25));
+}
+
+@media (max-width: 720px) {
+    #linkGrid { gap: 8px; }
+    .link-icon { width: 48px; height: 48px; }
+
+    /* 窄屏回退：若 JS 应用了 .ring，CSS 强制恢复为右下的网格布局 */
+    #linkGrid.ring {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 1fr;
+        right: 12px;
+        bottom: 12px;
+        left: auto;
+        top: auto;
+        width: auto;
+        height: auto;
+        gap: 8px;
+    }
+    #linkGrid.ring .link-btn {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0;
+    }
+    #linkGrid.ring .link-icon { width: 48px; height: 48px; }
+}
+
+@media (max-width: 420px) {
+    /* 移动端：把网格放到书本右上方以避免遮挡 */
+    #linkGrid { left: auto; right: 12px; bottom: 12px; grid-template-columns: repeat(3, 1fr); }
+}

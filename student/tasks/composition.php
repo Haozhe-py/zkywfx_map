@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>基础板块 - 带着语文去旅行</title>
-        <link rel="stylesheet" href="css/basic.css">
-        <link rel="icon" href="../images/icon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/composition.css">
+        <link rel="icon" href="/icon.ico" type="image/x-icon">
     </head>
     <body style="background-image: url('../images/black.jpg');">
 
 
 
 
-        <script src="js/basic.js"></script>
+        <script src="js/composition.js"></script>
     </body>
 </html>

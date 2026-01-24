@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" href="images/icon.ico" type="image/x-icon">
+        <link rel="icon" href="/icon.ico" type="image/x-icon">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>带着语文去旅行 - 中考语文复习闯关地图</title>
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="/index.css">
         <link rel="stylesheet" href="css/select.css">
     </head>
     <body style="background: url('images/black.jpg') center/cover no-repeat;">

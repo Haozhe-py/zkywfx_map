@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="icon" href="images/icon.ico" type="image/x-icon">
+        <link rel="icon" href="/icon.ico" type="image/x-icon">
         <link rel="stylesheet" href="css/task.css">
+        <style>
+            body{
+                background-image: url("images/black.jpg");
+            }
+        </style>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>带着语文去旅行 - 中考语文复习闯关地图</title>
