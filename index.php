@@ -37,6 +37,13 @@
                     </span>
                     <span id="continue" style="display:none;">
                         <button onclick="continue_game()" id="bu">继续游戏</button>
+                        <span>　</span>
+                        <button onclick="login()" id="bu">切换账号</button>
+                    </span>
+                    <span id="teacher_continue" style="display:none;">
+                        <button onclick="continue_game()" id="bu">进入后台</button>
+                        <span> </span>
+                        <button onclick="login()" id="bu">切换账号</button>
                     </span>
                 </div>
             </div>
@@ -48,7 +55,7 @@ if (!isset($_SESSION['id']) || !isset($_SESSION['username']) || !isset($_SESSION
 }
 
 // 初步检查 session 中的 role 和 name
-if (!isset($_SESSION['role']) || !isset($_SESSION['name'])) {
+if (isset($_SESSION['role']) || isset($_SESSION['name'])) {
     unset($_SESSION['role']);
     unset($_SESSION['name']);
 }

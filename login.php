@@ -41,7 +41,43 @@
     </body>
 </html>
 <?php
+    session_start();
+    if (isset($_SESSION['id']) && isset($_SESSION['username']) && isset($_SESSION['time'])) {
+        
+        // 初步检查 session 中的 role 和 name
+        if (isset($_SESSION['role']) || isset($_SESSION['name'])) {
+            unset($_SESSION['role']);
+            unset($_SESSION['name']);
+        }
+        // 检查是否修改用户名
+        require_once $_SERVER['DOCUMENT_ROOT'] .'/json_file_manager.php';
+        $manager = new JsonFileManager('data/usr.json');
+        $data = $manager->read();
+        foreach ($data['users'] as $user) {
+            if ($user['id'] === $_SESSION['id']) {
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['name'] = $user['name'];
+                if ($user['username'] !== $_SESSION['username']) {
+                    $_SESSION['username'] = $user['username'];
+                }
+                break;
+            }
+        }
+        // ID 唯一且不可修改，找不到说明注销，直接退出登录状态
+        if (!isset($_SESSION['role']) || !isset($_SESSION['name'])) {
+            session_unset();
+            session_destroy();
+            exit();
+        }
+
+        $username = $_SESSION['username'];
+        session_unset();
+        session_destroy();
+    }
     require_once 'json_file_manager.php';
+    if (isset($username)) {
+        echo "<script>refillLogin('".addslashes($username)."', '');</script>";
+    }
     
     // 检验是否为POST表单提交，否则不执行任何操作。
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
