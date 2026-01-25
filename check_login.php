@@ -21,7 +21,7 @@ else {
 }
 // 检查是否修改用户名
 require_once $_SERVER['DOCUMENT_ROOT'] .'/json_file_manager.php';
-$manager = new JsonFileManager('data/usr.json');
+$manager = new JsonFileManager($_SERVER['DOCUMENT_ROOT'].'/data/usr.json');
 $data = $manager->read();
 foreach ($data['users'] as $user) {
     if ($user['id'] === $_SESSION['id']) {
