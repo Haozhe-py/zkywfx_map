@@ -57,4 +57,9 @@ if (!isset($_SESSION['role']) || !isset($_SESSION['name'])) {
 
 $cur_id = $_SESSION['id'];
 $username = $_SESSION['username'];
+$name = $_SESSION['name'];
+
+// 销毁 role, name
+unset($_SESSION['role']);
+unset($_SESSION['name']);
 ?>
