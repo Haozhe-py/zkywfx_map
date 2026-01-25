@@ -37,6 +37,13 @@ foreach ($data['users'] as $user) {
         if ($user['username'] !== $_SESSION['username']) {
             $_SESSION['username'] = $user['username'];
         }
+        if ($user['locked'] === true) {
+            // 账号被封禁，销毁会话并重定向到登录页面
+            session_unset();
+            session_destroy();
+            header("Location: /login.php");
+            exit();
+        }
         break;
     }
 }

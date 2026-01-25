@@ -84,6 +84,12 @@ foreach ($data['users'] as $user) {
         if ($user['username'] !== $_SESSION['username']) {
             $_SESSION['username'] = $user['username'];
         }
+        if ($user['locked'] === true) {
+            // 账号被封禁，注销登录状态
+            session_unset();
+            session_destroy();
+            exit();
+        }
         break;
     }
 }
