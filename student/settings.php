@@ -42,8 +42,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/check_login.php';
 
                 <!-- 账号设置页面 -->
                 <div id="account-page" style="height: 100%; width: 100%; display: none;">
-                    <div>
-                        <a class="settings-link" href="javascript:void(0);"><div>
+                    <div id="account-home">
+                        <a class="settings-link" href="javascript:void(0);" onclick="javascript:showUsernameSettings();"><div>
                             <span>用户名</span>
                             <span style="float: right;">
                                 <span id="username-display" style="float: left; color: gray;"></span>
@@ -55,7 +55,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/check_login.php';
 
                         <span style="color: gray !important;"><hr style="border-color: gray;" /></span>
                         
-                        <a class="settings-link" href="javascript:void(0);"><div>
+                        <a class="settings-link" href="javascript:void(0);" onclick="javascript:showNameSettings();"><div>
                             <span>名字</span>
                             <span style="float: right;">
                                 <span id="name-display" style="float: left; color: gray;"></span>
@@ -67,7 +67,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/check_login.php';
                         
                         <span style="color: gray !important;"><hr style="border-color: gray;" /></span>
                         
-                        <a class="settings-link" href="javascript:void(0);"><div>
+                        <a class="settings-link" href="javascript:void(0);" onclick="javascript:showPasswordSettings();"><div>
                             <span>密码</span>
                             <span style="float: right;">
                                 <span style="float: right; margin-left: 10px; cursor: pointer; color: gray;">
@@ -75,6 +75,37 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/check_login.php';
                                 </span>
                             </span>
                         </div></a>
+                    </div>
+                    <div id="account-usrname" style="display: none;">
+                        <h2 style="margin-block-start: 0%;">
+                            <a href="javascript:void(0);" onclick="javascript:showAccountSettings();" style="color: gray; margin-right: 10px;">
+                                <svg width="32" height="32" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M 8.83704,2.15137 8.41321,2.57617 5.68567,5.30273 C 5.42998,5.55843 5.20322,5.78438 5.03919,5.98828 4.86821,6.20088 4.71948,6.44405 4.67102,6.75 c -0.0262,0.16565 -0.0262,0.33435 0,0.5 0.04846,0.30595 0.19719,0.54912 0.36817,0.76172 0.16403,0.20389 0.39079,0.42985 0.64648,0.68555 L 8.41321,11.4238 8.83704,11.8486 9.68567,11 9.26087,10.5762 6.53431,7.84863 C 6.25972,7.57405 6.08855,7.40124 5.97474,7.25977 5.868,7.12709 5.85891,7.07728 5.85657,7.0625 5.85001,7.02105 5.85001,6.97895 5.85657,6.9375 5.85891,6.92272 5.868,6.87291 5.97474,6.74023 6.08856,6.59876 6.25972,6.42595 6.53431,6.15137 L 9.26087,3.42383 9.68567,3 Z" fill="currentColor" id="path1" /></svg>
+                            </a>
+                            修改用户名
+                        </h2>
+                        <form action="settings.php" method="POST" class="settings-form">
+                            <input type="text" name="new_username" placeholder="新用户名" required />
+                            <input type="submit" value="保存" />
+                            <input type="hidden" name="action" value="change_username" />
+                        </form>
+                    </div>
+                    <div id="account-name" style="display: none;">
+                        <h2 style="margin-block-start: 0%;">修改名字</h2>
+                        <form action="settings.php" method="POST" class="settings-form">
+                            <input type="text" name="new_name" placeholder="新名字" required />
+                            <input type="submit" value="保存" />
+                            <input type="hidden" name="action" value="change_name" />
+                        </form>
+                    </div>
+                    <div id="account-password" style="display: none;">
+                        <h2 style="margin-block-start: 0%;">修改密码</h2>
+                        <form action="settings.php" method="POST" class="settings-form">
+                            <input type="password" name="current_password" placeholder="当前密码" required /><br />
+                            <input type="password" name="new_password" placeholder="新密码" required /><br />
+                            <input type="password" name="confirm_password" placeholder="确认新密码" required />
+                            <input type="submit" value="保存" />
+                            <input type="hidden" name="action" value="change_password" />
+                        </form>
                     </div>
                 </div>
             </div>

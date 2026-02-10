@@ -5,7 +5,12 @@ var id = ...;
 */
 
 function showAccountSettings() {
+    document.getElementById('account-usrname').style.display = 'none';
+    document.getElementById('account-name').style.display = 'none';
+    document.getElementById('account-password').style.display = 'none';
+
     document.getElementById('account-page').style.display = 'block';
+    document.getElementById('account-home').style.display = 'block';
 
 
     document.getElementById('account-btn').classList.add('settings-btn-clicked');
@@ -17,7 +22,32 @@ function showAccountSettings() {
     document.getElementById('name-display').innerText = realname;
 }
 
+function showUsernameSettings() {
+    document.getElementById('account-page').style.display = 'block';
+    document.getElementById('account-usrname').style.display = 'block';
 
+    document.getElementById('account-name').style.display = 'none';
+    document.getElementById('account-password').style.display = 'none';
+    document.getElementById('account-home').style.display = 'none';
+}
+
+function showNameSettings() {
+    document.getElementById('account-page').style.display = 'block';
+    document.getElementById('account-name').style.display = 'block';
+
+    document.getElementById('account-usrname').style.display = 'none';
+    document.getElementById('account-password').style.display = 'none';
+    document.getElementById('account-home').style.display = 'none';
+}
+
+function showPasswordSettings() {
+    document.getElementById('account-page').style.display = 'block';
+    document.getElementById('account-password').style.display = 'block';
+
+    document.getElementById('account-usrname').style.display = 'none';
+    document.getElementById('account-name').style.display = 'none';
+    document.getElementById('account-home').style.display = 'none';
+}
 
 
 showAccountSettings();
