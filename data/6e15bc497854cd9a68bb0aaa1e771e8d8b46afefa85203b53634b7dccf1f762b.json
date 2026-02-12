@@ -1,1 +1,1 @@
-{"id":"6e15bc497854cd9a68bb0aaa1e771e8d8b46afefa85203b53634b7dccf1f762b","history":[{"time":"2026-01-24 07:20:27","action":"register","description":"用户注册，初始500积分","cur_scores":500}]}
+{"id":"6e15bc497854cd9a68bb0aaa1e771e8d8b46afefa85203b53634b7dccf1f762b","history":[{"time":"2026-01-24 07:20:27","action":"register","description":"用户注册，初始500积分","cur_scores":500},{"time":"2026-02-12 13:02:01","action":"change_username","description":"将用户名修改为aaa","cur_scores":500},{"time":"2026-02-12 13:02:42","action":"change_username","description":"将用户名修改为TEST","cur_scores":500}]}
