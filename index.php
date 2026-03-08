@@ -18,16 +18,13 @@
                 <div>
                     <h1 class="title">带着语文去旅行</h1>
                 </div>
+                <br />
                 <!-- 出品人在 DOM 中放在标题下面（便于阅读顺序），但通过 CSS 在视觉上移到右侧 -->
                 <div class="producer">
+                    <hr style="border-color: rgba(255, 213, 0, 0.64)" />
                     <span>
-                        <strong><a href="/producer.txt">出品人：</a></strong><br />
-                        <span>九（1）</span><span>陈依津、</span><span>潘烨、</span><span>王修诚</span>
-                        <span>　</span>
-                        <span>九（2）</span><span>徐皓哲</span>
+                        <strong>凤凰城中英文学校飞牛科技工作室 <span> </span> <a href="/producer.html">出品</a></strong><br />
                     </span>
-                    <br />
-                    <span>版权所有 凤凰城中英文学校飞牛科技工作室</span>
                     <br />
                     <br />
                     <span id="login_regi">
