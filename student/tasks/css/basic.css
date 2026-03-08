@@ -1,0 +1,24 @@
+/* css/basic.css */
+#screen {
+    display: flex;
+    flex-direction: column;  /* 垂直排列子元素 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center;     /* 水平居中 */
+    min-height: 100vh;       /* 最小高度为视口高度 */
+    width: 100%;             /* 宽度占满 */
+    margin: 0 auto;          /* 备用居中 */
+}
+
+#select-mode {
+    display: flex;
+    justify-content: center;  /* 水平居中 */
+    align-items: center;      /* 垂直居中（如果需要） */
+    align-content: center;
+    align-self: center;
+    width: 100%;
+    gap: 8%;
+}
+
+#select-mode a{
+    width: 20.3%;
+}
