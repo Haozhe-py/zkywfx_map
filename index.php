@@ -108,6 +108,10 @@ if ($_SESSION['role'] === 'teacher') {
     echo "window.alert('欢迎您，".$_SESSION['name']."老师！');";
     echo "GAME_PATH = 'teacher/inst.php';</script>";
 }
+else if ($_SESSION['role'] === 'admin') {
+    echo "window.alert('欢迎您，".$_SESSION['name']."');";
+    echo "GAME_PATH = 'teacher/inst.php';</script>";
+}
 else {
     echo "window.alert('欢迎您，".$_SESSION['name']."同学！');";
     echo "GAME_PATH = 'student/select.php';</script>";
