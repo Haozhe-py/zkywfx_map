@@ -1,0 +1,65 @@
+<?php
+session_start();
+if (!isset($_SESSION['id']) || !isset($_SESSION['username']) || !isset($_SESSION['time'])) {
+    header("Location: /login.php");
+    exit();
+}
+
+// 初步检查 session 中的 role 和 name
+if (isset($_SESSION['role']) || isset($_SESSION['name'])) {
+    unset($_SESSION['role']);
+    unset($_SESSION['name']);
+}
+
+// 检查是否超过3天
+$login_time = strtotime($_SESSION['time']);
+$current_time = time();
+$time_diff = $current_time - $login_time;
+if ($time_diff > 3 * 24 * 60 * 60) {
+    // 超过3天，销毁会话并重定向到登录页面
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
+    exit();
+}
+else {
+    // 更新登录时间
+    $_SESSION['time'] = date("Y-m-d H:i:s");
+}
+// 检查是否修改用户名
+require_once $_SERVER['DOCUMENT_ROOT'] .'/json_file_manager.php';
+$manager = new JsonFileManager('data/usr.json');
+$data = $manager->read();
+foreach ($data['users'] as $user) {
+    if ($user['id'] === $_SESSION['id']) {
+        $_SESSION['role'] = $user['role'];
+        $_SESSION['name'] = $user['name'];
+        if ($user['username'] !== $_SESSION['username']) {
+            $_SESSION['username'] = $user['username'];
+        }
+        if ($user['locked'] === true) {
+            // 账号被封禁，销毁会话并重定向到登录页面
+            session_unset();
+            session_destroy();
+            header("Location: /login.php");
+            exit();
+        }
+        break;
+    }
+}
+// ID 唯一且不可修改，找不到说明注销，直接退出登录状态
+if (!isset($_SESSION['role']) || !isset($_SESSION['name'])) {
+    session_unset();
+    session_destroy();
+    header("Location: /login.php");
+    exit();
+}
+
+$cur_id = $_SESSION['id'];
+$username = $_SESSION['username'];
+$name = $_SESSION['name'];
+
+// 销毁 role, name
+unset($_SESSION['role']);
+unset($_SESSION['name']);
+?>
