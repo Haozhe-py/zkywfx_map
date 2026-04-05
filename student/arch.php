@@ -32,9 +32,9 @@ $manager = new JsonFileManager($_SERVER['DOCUMENT_ROOT'] . '/data/' . $cur_id . 
             </div>
             <div style="margin-top: 5%; height: 80%; width: 100%;">
                 <div id="levels" style="height: 100%; width: 25%; float: left; ">
-                    <b>我的等级：</b><br />
+                    <b>我的等级</b><br />
                     <span id="levels-num" style="width: 100; justify-content:center; font-size:60px; color: #e0d12b"></span>
-                    <br /><b>积分：</b><br />
+                    <br /><b style="color: gray">积分</b><br />
                     <span id="scores-num" style="color: gray;"></span>
                 </div>
                 <div id="pages" style="height: 100%; width: 75%; float: right; max-height:400px; overflow-y: auto;">
